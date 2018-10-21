@@ -1,0 +1,55 @@
+/* pages/music/music.wxss */
+.all{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.select{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: 20rpx;
+}
+.oneselect{
+  margin-left: 60rpx;
+}
+.moreselect{
+  margin-left: 60rpx;
+}
+.selectone{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  border: 1rpx solid black;
+}
+.selectmore{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  border: 1rpx solid black;
+}
+.footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background-color: gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.btn{
+  width: 25%;
+  height: 100rpx;
+  vertical-align:middle;
+  background-color: gray;
+}
+.btntxt{
+  font-size: 22rpx;
+}

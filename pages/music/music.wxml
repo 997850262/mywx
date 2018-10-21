@@ -1,0 +1,33 @@
+<!--pages/music/music.wxml-->
+<view class='all'>
+  <view class='header'>
+    <view><text bindtap='goback'>返回</text></view>
+    <view><text>{{name}}</text></view>
+    <view><text>完成</text></view>
+  </view>
+  <view class='header'>
+    <view><text>我的音乐</text></view>
+    <view><text>搜索音乐</text></view>
+    <view><text>上传音乐</text></view>
+  </view>
+  <view class='select' wx:if="{{select==true}}">
+    <view class='oneselect'><text>单选</text></view><view class='selectone' bindtap='onclickone' style='background-color: red'></view>
+    <view class='moreselect'><text>多选</text></view><view class='selectmore' bindtap='onclickmore'></view>
+  </view>
+    <view class='select' wx:else>
+    <view class='oneselect'><text>单选</text></view><view class='selectone' bindtap='onclickone'></view>
+    <view class='moreselect'><text>多选</text></view><view class='selectmore' bindtap='onclickmore' style='background-color: red'></view>
+  </view>
+  <view>
+    <view><text>我的音乐</text></view>
+    <view><text>推荐音乐</text></view>
+  </view>
+  <view class='footer'>
+    <button class='btn'><text class='btntxt'>播放</text></button>
+    <button class='btn'><text class='btntxt'>重命名</text></button>
+    <button class='btn'><text class='btntxt'>截取片断</text></button>
+    <button class='btn'><text class='btntxt'>送给朋友</text></button>
+    <button class='btn'><text class='btntxt'>删除</text></button>
+  </view>
+</view>
+
