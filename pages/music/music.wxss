@@ -39,17 +39,76 @@
   left: 0;
   right: 0;
   height: 100rpx;
-  background-color: gray;
+  background-color: #ccc;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  z-index: -100;
 }
 .btn{
   width: 25%;
   height: 100rpx;
   vertical-align:middle;
-  background-color: gray;
+  background-color: #ccc;
 }
 .btntxt{
   font-size: 22rpx;
+}
+.music-all{
+  height: 800rpx;
+  padding-top: 10rpx;
+}
+.mymusic{
+  margin-top: 0 auto;
+  font-weight: 600;
+}
+.recommend{
+    margin-top: 20rpx;
+    font-weight: 600;
+}
+.mymusiclist{
+    text-indent:30px;
+    margin-top: 10px;
+    width: 100%;
+    border-bottom:1px solid #ccc;
+}
+.recommendlist{
+    text-indent:30px;
+    margin-top: 10px;
+    width: 100%;
+    border-bottom:1px solid #ccc;
+}
+.img{
+  position: absolute;
+  left: 0;
+  height:40rpx;
+  width:50rpx
+}
+.mask{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: gray;
+  opacity: 0.9;
+}
+.audio-all{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 300rpx;
+  background-color: white;
+  opacity: 1;
+  z-index: 100;
+}
+.playbtn{
+  height: 50rpx;
+  width: 50rpx;
+}
+.cancel{
+  float: right;
+  font-size: 40rpx;
+  margin-top: -40rpx;
 }

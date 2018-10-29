@@ -1,7 +1,8 @@
 //index.js
 //获取应用实例
-import { connect, bindActionCreators } from '../../libs/redux.js';
-import * as todoActionCreators from '../../actions/index.js';
+import { connect } from '../../libs/redux.js';
+import {bindActionCreators} from '../../libs/redux.min.js';
+import * as ActionCreators  from '../../actions/index.js';
 import { store } from '../../store/store.js';
 import { changeText2 } from '../../actions/index.js'
 import { changeText } from '../../actions/music.js'
@@ -10,6 +11,7 @@ let state = app.store.getState()
 // const Store = app.Store
 // const dispatch = Store.dispatch
 var items = [{ bind: 'menu1', name: '操作1' }, { bind: 'menu2', name: '操作2' }, { bind: 'menu3',name:'操作3'}]
+// let _music;
 
 let pageConfig = {
   // Page({
@@ -32,6 +34,9 @@ let pageConfig = {
     })
   },
   onLoad: function () {
+    // this.setData({
+    //   music: _music
+    // })
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -69,7 +74,7 @@ let pageConfig = {
   },
   testonclick: function() {
     console.log('点击按钮1')
-    console.log(this.data.userInfo.nickName)
+    // console.log(this.data.userInfo.nickName)
     this.setData({
       color1: "red",
       color2: "black",
@@ -90,24 +95,18 @@ let pageConfig = {
   },
   testonclick3: function () {
     console.log('点击按钮3')
-    console.log(app.store.dispatch(changeText('刘')))
-    app.store.dispatch(changeText('刘'))
-    // let state = store.getState()
-    console.log(state)
-    // this.changetext('刘');
-    // changetext('刘')
+    // console.log(app.store.dispatch(changeText('刘')))
+    // app.store.dispatch(changeText('刘'))
+    // console.log(nextPageConfig.changetext)
+    // nextPageConfig.changetext('刘')
+    nextPageConfig.todoActions.changeText('刘')
     // dispatch(changeText2('new text'))
     // console.log(Store.getState())
-    const testreducer = state.music.music.name
-    // const motto = Store.getState().index
-    // console.log(motto,testreducer)
-    // console.log(music)
     this.setData({
       color1: "black",
       color2: "black",
       color3: "red",
       // motto: motto,
-      testreducer: testreducer
     })
   },
   actionSheetChange: function (e) {
@@ -130,12 +129,12 @@ let mapStateToData = (state, params) => {
   const {
     music
   } = state;
-  console.log(music)
+  // _music=music
 return music
 }
-let mapDispatchToPage = dispatch => {
-   changetext: name => dispatch(changeText(name))
-  //  todoActions: bindActionCreators(todoActionCreators, dispatch)
-};
+let mapDispatchToPage = dispatch => ({
+  //  changetext: name => dispatch(changeText(name))
+  todoActions: bindActionCreators(ActionCreators, dispatch)
+});
 const nextPageConfig = connect(mapStateToData, mapDispatchToPage)(pageConfig)
-Page(nextPageConfig );
+Page(nextPageConfig);

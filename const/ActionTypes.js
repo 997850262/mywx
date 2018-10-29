@@ -12,5 +12,7 @@ export default {
   Signtime: 'Signtime',
   Cleansigntime: 'Cleansigntime',
   CHANGE_TEXT:'CHANGE_TEXT',
-  CHANGE_TEXT2:'CHANGE_TEXT2'
+  CHANGE_TEXT2:'CHANGE_TEXT2',
+  Music:'Music',
+  Selectone:'Selectone'
 };

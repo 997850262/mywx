@@ -18,16 +18,52 @@
     <view class='oneselect'><text>单选</text></view><view class='selectone' bindtap='onclickone'></view>
     <view class='moreselect'><text>多选</text></view><view class='selectmore' bindtap='onclickmore' style='background-color: red'></view>
   </view>
-  <view>
-    <view><text>我的音乐</text></view>
-    <view><text>推荐音乐</text></view>
-  </view>
+  <scroll-view scroll-y class='music-all'>
+    <view class='mymusic'><text>我的音乐</text></view>
+      <view wx:for="{{music.result}}" wx:for-index="index" wx:for-item="item" wx:key="item" class='mymusiclist' bindtap='selectmusic' data-data='{{music.entities[item].id}}'>
+        <view wx:if="{{select==true&&music.selectid==music.entities[item].id}}">
+        <image src="../../source/select_music.png" class='img'></image>
+        {{music.entities[item].name}}
+        </view>
+        <view wx:else>
+        {{music.entities[item].name}}
+        </view>
+      </view>
+    <view class='recommend'><text>推荐音乐</text></view>
+      <view wx:for="{{music.recommendresult}}" wx:for-index="index" wx:for-item="item" wx:key="item" class='recommendlist' bindtap='selectmusic' data-data='{{music.entities[item].id}}'>
+        <view wx:if="{{select==true&&music.selectid==music.entities[item].id}}">
+        <image src="../../source/select_music.png" class='img'></image>
+      {{music.entities[item].name}}
+        </view>
+        <view wx:else>
+        {{music.entities[item].name}}
+        </view>
+      </view>
+  </scroll-view>
   <view class='footer'>
-    <button class='btn'><text class='btntxt'>播放</text></button>
+    <button class='btn' bindtap='play'><text class='btntxt'>播放</text></button>
     <button class='btn'><text class='btntxt'>重命名</text></button>
     <button class='btn'><text class='btntxt'>截取片断</text></button>
     <button class='btn'><text class='btntxt'>送给朋友</text></button>
     <button class='btn'><text class='btntxt'>删除</text></button>
+  </view>
+  <view wx:if="{{isAcitve==true}}" class='mask'>
+    <view wx:if="{{ispart==1}}" class='audio-all'>
+      <audio src="{{music.entities[music.selectid].m_url}}"loop id="myAudio"></audio>
+      <view>
+          <view class='cancel' bindtap='onCancel'>关闭</view>
+          <view style='text-align: center'>{{music.entities[music.selectid].name}}</view>
+          <view wx:if="{{play==true}}">
+          <image src="../../source/btn_pause.png" class='playbtn' bindtap="audioPause"></image>
+          </view>
+          <view wx:else>
+          <image src="../../source/btn_play.png" class='playbtn' bindtap="audioPlay"></image>
+          </view>
+      </view>
+    </view>
+  </view>
+  <view wx:else>
+
   </view>
 </view>
 

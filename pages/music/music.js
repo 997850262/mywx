@@ -1,56 +1,37 @@
 // pages/music/music.js
-Page({
+import { connect } from '../../libs/redux.js';
+import { bindActionCreators } from '../../libs/redux.min.js';
+import * as ActionCreators from '../../actions/index.js';
+
+let pageConfig = {
 
   /**
    * 页面的初始数据
    */
   data: {
     select:true,
+    isAcitve: false,
+    ispart: 0,
+    play: true,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.name)
+    // console.log(options.name)
+    this.audioCtx = wx.createAudioContext('myAudio')
     this.setData({
     name: options.name
     })
-    wx.request({
-      url: 'https://xly-wkop.xiaoniangao.cn/music/list', 
-      // url:'https://isure.stream.qqmusic.qq.com/C4000042CqG748M3y8.m4a?guid=9460620423&vkey=C18E75E3745DF7ED5FF0DF9758B3C1F7B89F4CDA0C3D5061B7A86EBFD2C8038185C47A9ABAF51BE9EEF09162149890842AE38CC92AF04E9D&uin=7318&fromtag=66',
-      method: 'POST',
-      data: {
-//         guid:'9460620423',
-// vkey:'C18E75E3745DF7ED5FF0DF9758B3C1F7B89F4CDA0C3D5061B7A86EBFD2C8038185C47A9ABAF51BE9EEF09162149890842AE38CC92AF04E9D',
-//         uin:'7318',
-//         fromtag:'66'
-         token : 'test181153814',
-         limit : '30',
-         offset : '0',
-      },
-      header: {
-        "content-type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        console.log(res.data)
-      }
-    }),
-      wx.request({
-      url: 'https://xly-wkop.xiaoniangao.cn/album/get_musics_by_tpl_id',
-        method: 'POST',
-        data: {
-          token: 'test181153814',
-          tpl_id:'100022',
-        },
-        header: {
-          "content-type": "application/x-www-form-urlencoded"
-        },
-        success: function (res) {
-          console.log(res.data)
-        }
-      })
+    // const token = 'test181153814';
+    // const limit = '30';
+    // const offset = '0';
+    const dirinfo=1;
+    const dirid=1;
+    const uin=997850262;
+    const p=1212121;
+    nextPageConfig.todoActions.music(dirinfo, dirid, uin, p)
   },
 
   /**
@@ -114,8 +95,53 @@ Page({
   },
   onclickmore: function () {
     console.log('点击多选');
+    console.log(this.data)
     this.setData({
       select: false
     })
+  },
+  selectmusic: function(e) {
+    if(this.data.select==true){
+      let id = e.currentTarget.dataset.data;
+      console.log(id)
+      nextPageConfig.todoActions.selectone(id)
+    }
+  },
+  onCancel: function(){
+    this.setData({
+      isAcitve: false,
+      ispart: 0
+    })
+  },
+  play: function() {
+    this.audioCtx.play()
+    this.setData({
+      isAcitve:true,
+      ispart: 1
+    })
+  },
+  audioPlay: function () {
+    this.audioCtx.play()
+    this.setData({
+      play:!this.data.play
+    })
+  },
+  audioPause: function () {
+    this.audioCtx.pause()
+    this.setData({
+      play: !this.data.play
+    })
   }
-})
+}
+
+let mapStateToData = (state, params) => {
+  const {
+    music
+  } = state;
+  return music
+}
+let mapDispatchToPage = dispatch => ({
+  todoActions: bindActionCreators(ActionCreators, dispatch)
+});
+const nextPageConfig = connect(mapStateToData, mapDispatchToPage)(pageConfig)
+Page(nextPageConfig);

@@ -1,5 +1,5 @@
 const API_DOMAIN = 'https://xly-wkop.xiaoniangao.cn';
-wx.request({
+const axiosFetch=wx.request({
   url: API_DOMAIN, 
   method :'Post',
   data: {
@@ -20,13 +20,40 @@ wx.request({
 
 const callServerApi = apiParams => {
   const { endpoint, params } = apiParams;
+  console.log('1', endpoint, params)
+  // console.log(API_DOMAIN+`${endpoint}`)
   return new Promise((resolve, reject) => {
-    axiosFetch({
-      method: 'POST',
-      url: endpoint,
-      data: params
+    wx.request({
+      // url: API_DOMAIN + `${endpoint}`,
+      url: 'http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg',
+      method: 'GET',
+      data: {
+        // token: 'test181153814',
+        // limit: '30',
+        // offset: '0',
+
+         dirinfo : 1,
+         dirid : 1,
+         uin : 997850262,
+         p : 1212121,
+      },
+      header: {
+        "content-type": "application/x-www-form-urlencoded"
+      },
+      success: function (res) {
+        console.log(res.data)
+      },
+      fail: function (err) {
+        console.log(err)
+      }
     })
+    // axiosFetch({
+    //   method: 'POST',
+    //   url: endpoint,
+    //   data: params
+    // })
       .then(res => {
+        console.log('3')
         if (res.data.ret === 1) {
           resolve(res);
         } else {
@@ -34,6 +61,7 @@ const callServerApi = apiParams => {
         }
       })
       .catch(res => {
+        console.log('4')
         reject(JSON.stringify(res));
       });
   });
@@ -52,8 +80,7 @@ const serverApi = store => next => action => {
   if (typeof params !== 'object') {
     throw new Error('Specify a object params.');
   }
-
-  const { normailzerFun } = action.Server_Api;
+  // const { normailzerFun } = action.Server_Api;
   function actionWith(data) {
     const finalAction = { ...action, ...data };
     delete finalAction.Server_Api;
@@ -66,10 +93,10 @@ const serverApi = store => next => action => {
   callServerApi({ endpoint, params })
     .then(res => {
       console.log(999, res);
-      const response = typeof (normailzerFun) !== 'undefined' ? normailzerFun(res.data) : res.data;
-      if (params.gettoken) {
-        params.gettoken(res.data);
-      }
+      // const response = typeof (normailzerFun) !== 'undefined' ? normailzerFun(res.data) : res.data;
+      // if (params.gettoken) {
+      //   params.gettoken(res.data);
+      // }
       console.log('中间件', response);
       next(actionWith({
         type: `${type}_SUC`,
