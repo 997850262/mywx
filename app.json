@@ -2,12 +2,35 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/music/music"
+    "pages/music/music",
+    "pages/searchmusic/searchmusic",
+    "pages/uploadmusic/uploadmusic"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "black",
+    "selectedColor": "red",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "position": "top",
+    "list": [
+      {
+        "pagePath": "pages/music/music",
+        "text": "我的音乐"
+      },
+      {
+        "pagePath": "pages/searchmusic/searchmusic",
+        "text": "搜索音乐"
+      },
+      {
+        "pagePath": "pages/uploadmusic/uploadmusic",
+        "text": "上传音乐"
+      }
+    ]
   }
 }

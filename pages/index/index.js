@@ -33,6 +33,10 @@ let pageConfig = {
       url: '../logs/logs'
     })
   },
+  onReady: function () {
+    //获得dialog组件
+    this.dialog = this.selectComponent("#dialog");
+  },
   onLoad: function () {
     // this.setData({
     //   music: _music
@@ -80,9 +84,12 @@ let pageConfig = {
       color2: "black",
       color3: "black",
     })
-    wx.navigateTo({
-      url: '../music/music?name='+this.data.userInfo.nickName+'',
+    wx.switchTab({
+      url: '../music/music',
     })
+    // wx.navigateTo({
+    //   url: '../music/music?name='+this.data.userInfo.nickName+'',
+    // })
   },
   testonclick2: function() {
     console.log('点击按钮2')
@@ -91,22 +98,6 @@ let pageConfig = {
       color2: "red",
       color3: "black",
       actionSheetHidden: !this.data.actionSheetHidden
-    })
-  },
-  testonclick3: function () {
-    console.log('点击按钮3')
-    // console.log(app.store.dispatch(changeText('刘')))
-    // app.store.dispatch(changeText('刘'))
-    // console.log(nextPageConfig.changetext)
-    // nextPageConfig.changetext('刘')
-    nextPageConfig.todoActions.changeText('刘')
-    // dispatch(changeText2('new text'))
-    // console.log(Store.getState())
-    this.setData({
-      color1: "black",
-      color2: "black",
-      color3: "red",
-      // motto: motto,
     })
   },
   actionSheetChange: function (e) {
@@ -122,6 +113,27 @@ let pageConfig = {
   },
   bindmenu3: function () {
     console.log('点击操作3')
+  },
+  showDialog() {
+    this.dialog.showDialog();
+    console.log('点击按钮3')
+    nextPageConfig.todoActions.changeText('刘')
+    this.setData({
+      color1: "black",
+      color2: "black",
+      color3: "red",
+    })
+  },
+
+  //取消事件
+  _cancelEvent() {
+    console.log('你点击了取消');
+    this.dialog.hideDialog();
+  },
+  //确认事件
+  _confirmEvent() {
+    console.log('你点击了确定');
+    this.dialog.hideDialog();
   }
 // })
 }

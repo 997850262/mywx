@@ -2,7 +2,7 @@
 <view class='all'>
   <view class='header'>
     <view><text bindtap='goback'>返回</text></view>
-    <view><text>{{name}}</text></view>
+    <!-- <view><text>{{name}}</text></view> -->
     <view><text>完成</text></view>
   </view>
   <view class='header'>
@@ -48,16 +48,23 @@
     <button class='btn'><text class='btntxt'>删除</text></button>
   </view>
   <view wx:if="{{isAcitve==true}}" class='mask'>
-    <view wx:if="{{ispart==1}}" class='audio-all'>
+    <view wx:if="{{ispart==1}}&&{{music.selectid!='undefined'}}" class='audio-all'>
       <audio src="{{music.entities[music.selectid].m_url}}"loop id="myAudio"></audio>
       <view>
           <view class='cancel' bindtap='onCancel'>关闭</view>
           <view style='text-align: center'>{{music.entities[music.selectid].name}}</view>
+          <view style='text-align:center'>{{currentminute}}:{{currentsecond}}/{{allminute}}:{{allsecond}}</view>
           <view wx:if="{{play==true}}">
-          <image src="../../source/btn_pause.png" class='playbtn' bindtap="audioPause"></image>
+          <view class='slider-all'>
+            <image src="../../source/btn_pause.png" class='playbtn' bindtap="audioPause"></image>
+            <slider  min="0" max="100" class='slider' block-color='green' color='gray' value='{{value}}' bindchange="sliderchange" bindchanging="sliderchangeing"/>
+          </view>
           </view>
           <view wx:else>
-          <image src="../../source/btn_play.png" class='playbtn' bindtap="audioPlay"></image>
+          <view class='slider-all'>
+            <image src="../../source/btn_play.png" class='playbtn' bindtap="audioPlay"></image>
+            <slider  min="0" max="100" class='slider' block-color='green' color='gray' value='{{value}}' bindchange="sliderchange" bindchanging="sliderchangeing"/>
+          </view>
           </view>
       </view>
     </view>

@@ -106,9 +106,18 @@
 .playbtn{
   height: 50rpx;
   width: 50rpx;
+  margin-left: 30rpx;
+  margin-top: 10rpx;
 }
 .cancel{
   float: right;
   font-size: 40rpx;
   margin-top: -40rpx;
+}
+.slider-all{
+  display: flex;
+  margin-top: 30rpx;
+}
+.slider{
+  width: 70%
 }

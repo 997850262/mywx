@@ -1,74 +1,45 @@
-const API_DOMAIN = 'https://xly-wkop.xiaoniangao.cn';
-const axiosFetch=wx.request({
-  url: API_DOMAIN, 
-  method :'Post',
-  data: {
-    token: 'test181153814',
-    limit: '30',
-    offset: '0',
-  },
-  header: {
-    "content-type": "application/x-www-form-urlencoded"
-  },
-  success: function (res) {
-    console.log(res.data)
-  },
-  fail: function (err) {
-    console.log(err)
-  }
-})
-
+const API_DOMAIN = 'https://c.y.qq.com';
 const callServerApi = apiParams => {
+  console.log('callServerApi')
   const { endpoint, params } = apiParams;
   console.log('1', endpoint, params)
   // console.log(API_DOMAIN+`${endpoint}`)
   return new Promise((resolve, reject) => {
     wx.request({
       // url: API_DOMAIN + `${endpoint}`,
-      url: 'http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg',
+      url: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=36&_=1520777874472%20',
       method: 'GET',
       data: {
-        // token: 'test181153814',
-        // limit: '30',
-        // offset: '0',
 
-         dirinfo : 1,
-         dirid : 1,
-         uin : 997850262,
-         p : 1212121,
       },
       header: {
         "content-type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
-        console.log(res.data)
-      },
+      success: (res) => {
+        console.log(res.data);
+        resolve(res);
+    },
       fail: function (err) {
-        console.log(err)
+        console.log(err);
+        reject(JSON.stringify(res));
       }
     })
-    // axiosFetch({
-    //   method: 'POST',
-    //   url: endpoint,
-    //   data: params
-    // })
-      .then(res => {
-        console.log('3')
-        if (res.data.ret === 1) {
-          resolve(res);
-        } else {
-          reject(res.data.errMsg);
-        }
-      })
-      .catch(res => {
-        console.log('4')
-        reject(JSON.stringify(res));
-      });
+      // .then(res => {
+      //   console.log('3')
+      //   if (res.data.ret === 1) {
+      //     resolve(res);
+      //   } else {
+      //     reject(res.data.errMsg);
+      //   }
+      // })
+      // .catch(res => {
+      //   console.log('4')
+      //   reject(JSON.stringify(res));
+      // });
   });
 };
 
 const serverApi = store => next => action => {
-  console.log(store);
   if (!action.Server_Api) { return next(action); }
   const { type, endpoint, params } = action.Server_Api;
   if (typeof endpoint !== 'string') {
@@ -92,12 +63,9 @@ const serverApi = store => next => action => {
   }));
   callServerApi({ endpoint, params })
     .then(res => {
-      console.log(999, res);
-      // const response = typeof (normailzerFun) !== 'undefined' ? normailzerFun(res.data) : res.data;
-      // if (params.gettoken) {
-      //   params.gettoken(res.data);
-      // }
-      console.log('中间件', response);
+      // console.log(res.data.songlist)
+      const response = typeof (normailzerFun) !== 'undefined' ? normailzerFun(res.data.songlist) : res.data.songlist;
+      console.log(response)
       next(actionWith({
         type: `${type}_SUC`,
         __api: { endpoint, params },

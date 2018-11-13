@@ -2,7 +2,8 @@
 import { connect } from '../../libs/redux.js';
 import { bindActionCreators } from '../../libs/redux.min.js';
 import * as ActionCreators from '../../actions/index.js';
-
+var innerAudioContext = wx.createInnerAudioContext()
+var load=false
 let pageConfig = {
 
   /**
@@ -13,6 +14,10 @@ let pageConfig = {
     isAcitve: false,
     ispart: 0,
     play: true,
+    alltime: 0,
+    currentTime: 0,
+    value:0,
+    ismove:false
   },
 
   /**
@@ -20,18 +25,23 @@ let pageConfig = {
    */
   onLoad: function (options) {
     // console.log(options.name)
-    this.audioCtx = wx.createAudioContext('myAudio')
-    this.setData({
-    name: options.name
-    })
+    // const innerAudioContext = wx.createInnerAudioContext()
     // const token = 'test181153814';
     // const limit = '30';
     // const offset = '0';
-    const dirinfo=1;
-    const dirid=1;
-    const uin=997850262;
-    const p=1212121;
-    nextPageConfig.todoActions.music(dirinfo, dirid, uin, p)
+
+    // const dirinfo=1;
+    // const dirid=1;
+    // const uin=997850262;
+    // const p=1212121;
+    if (load!=true){
+      console.log(load,'onload')
+      load=true;
+      nextPageConfig.todoActions.music()
+    }
+    // this.setData({
+    //   name: options.name,
+    // })
   },
 
   /**
@@ -83,8 +93,11 @@ let pageConfig = {
 
   },
   goback: function(){
-    wx.navigateBack({
-      delta:1
+    // wx.navigateBack({
+    //   delta:1
+    // })
+    wx.navigateTo({
+      url:'../index/index'
     })
   },
   onclickone: function(){
@@ -103,7 +116,6 @@ let pageConfig = {
   selectmusic: function(e) {
     if(this.data.select==true){
       let id = e.currentTarget.dataset.data;
-      console.log(id)
       nextPageConfig.todoActions.selectone(id)
     }
   },
@@ -114,22 +126,77 @@ let pageConfig = {
     })
   },
   play: function() {
-    this.audioCtx.play()
-    this.setData({
-      isAcitve:true,
-      ispart: 1
-    })
+    if (this.data.music.selectid>0)
+    {
+      var that = this;
+      innerAudioContext.src = this.data.music.entities[this.data.music.selectid].m_url;
+      innerAudioContext.onCanplay(() => {
+        innerAudioContext.duration //类似初始化-必须触发-不触发此函数延时也获取不到
+        setTimeout(() => {
+          const time = Math.floor(innerAudioContext.duration / 1);
+          const allminute = Math.floor(time / 60);
+          const allsecond = Math.floor(time % 60);
+          that.setData({
+            alltime: time,
+            allminute,
+            allsecond
+          })
+        }, 1000)
+      })
+      innerAudioContext.autoplay = true;
+      innerAudioContext.onPlay((res) => {
+        innerAudioContext.onTimeUpdate(() => {
+          const time = Math.floor(innerAudioContext.currentTime / 1);
+          const currentminute = Math.floor(time / 60);
+          const currentsecond = Math.floor(time % 60);
+          const value = Math.floor((time / this.data.alltime) * 100)
+          if (this.data.ismove == false) {
+            that.setData({
+              currentTime: time,
+              value: value,
+              currentminute,
+              currentsecond
+            })
+          }
+        })
+      })
+      innerAudioContext.play()
+      this.setData({
+        isAcitve: true,
+        ispart: 1,
+        play: true,
+      })
+    }
   },
   audioPlay: function () {
-    this.audioCtx.play()
-    this.setData({
-      play:!this.data.play
-    })
+    if (this.data.music.selectid > 0)
+    {
+      innerAudioContext.autoplay = true
+      innerAudioContext.src = this.data.music.entities[this.data.music.selectid].m_url;
+      if (this.data.ismove == false) {
+        innerAudioContext.play()
+      }
+      this.setData({
+        play: !this.data.play
+      })
+    }
   },
   audioPause: function () {
-    this.audioCtx.pause()
+    innerAudioContext.pause()
     this.setData({
       play: !this.data.play
+    })
+  },
+  sliderchangeing: function(e){
+    this.setData({
+      ismove:true
+    })
+  },
+  sliderchange: function(e){
+    const newcurrentTime=(e.detail.value*this.data.alltime)/100
+    innerAudioContext.seek(newcurrentTime)
+    this.setData({
+      ismove: false
     })
   }
 }

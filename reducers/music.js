@@ -1,21 +1,35 @@
+
+
 import { combineReducers } from '../libs/redux.min.js';
 function  music(state = {
   data: { token: 1, nick: '刘凯' },
   entities: {
-    0: {
-      id: 0,
+    1000: {
+      id: 1000,
       bmt: 0,
       emt: 0,
       fmt: 'mp3',
       name: '星月神话.mp3',
-      m_url: 'http://221.194.36.142/amobile.music.tc.qq.com/C400003lfo7F49kapo.m4a?guid=9460620423&vkey=42DC92BE041878A28B7F129C9ACA596335B6C6A2288459A85FF38DB1A8618C3CAF3B02B15F9A0DADDA5E9418D26D62C5A3460FECAABE4869&uin=7318&fromtag=66',
+      m_url: 'http://isure.stream.qqmusic.qq.com/C400003lfo7F49kapo.m4a?guid=9460620423&vkey=75A7CD67D856C343BD272B20ADB55BEE245856BABE97EC450261123BFFC61A7A58667FF4EA4170540749EAAE6B36537654695BC052E14312&uin=7318&fromtag=66',
       med: 1,
       qid: 1,
       singerL: '星月神话.mp3',
       t: 1
     },
-        1: {
-          id: 1,
+    1001: {
+      id: 1001,
+      bmt: 0,
+      emt: 0,
+      fmt: 'mp3',
+      name: '远行.mp3',
+      m_url: 'http://61.240.152.25/amobile.music.tc.qq.com/C400001k0Qg24L3nYG.m4a?guid=9460620423&vkey=5E7DDB7C77F1B82D7DDF0A9F2279F4FDDF3940A857A8FDDBCF77F611BBDC52A2DB610B38248C5B118B0E7C2389FC61910EFC880BA3E5BA65&uin=7318&fromtag=66',
+      med: 1,
+      qid: 1,
+      singerL: '远行.mp3',
+      t: 1
+    },
+    1002: {
+          id: 1002,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -26,8 +40,8 @@ function  music(state = {
           singerL: '我只在乎你.mp3',
           t: 1
         },
-        2: {
-          id: 2,
+    1003: {
+          id: 1003,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -39,8 +53,8 @@ function  music(state = {
           singerL: '女人花.mp3',
           t: 1
         },
-        3: {
-          id: 3,
+    1004: {
+          id: 1004,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -51,8 +65,8 @@ function  music(state = {
           singerL: '老古董.mp3',
           t: 1
         },
-        4: {
-          id: 4,
+    1005: {
+          id: 1005,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -63,8 +77,8 @@ function  music(state = {
           singerL: '我们不一样.mp3',
           t: 1
         },
-        11: {
-          id: 11,
+    1006: {
+          id: 1006,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -75,8 +89,8 @@ function  music(state = {
           singerL: '因为爱情.mp3',
           t: 1
         },
-        12: {
-          id: 12,
+    1007: {
+          id: 1007,
           bmt: 0,
           emt: 0,
           fmt: 'mp3',
@@ -88,8 +102,8 @@ function  music(state = {
           t: 1
         }
   }, // 我的音乐
-  result: [0, 1, 2, 3, 4],
-  recommendresult: [11, 12],
+  result: [],
+  recommendresult: [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007],
   selectid: 0, // 存单选id
   selectmoreid: []// 存多选id
    }, action) {
@@ -106,12 +120,34 @@ function  music(state = {
           newState.data.nick = action.text;
           return newState
       }
-      case 'Music':
+      case 'Music_SUC':
         {
+          // console.log('suc',action)
+          // console.log(action.response)
           const newState = { ...state };
-          console.log(111111,action)
-          newState.music = action.text;
-          return newState
+          action.response.map((data,index)=>{
+            return newState.result.push(data.cur_count)
+          })
+          newState.result.map((d, i) => {
+            // console.log(action.response[i].cur_count)
+            // console.log(action.response[i].data.songname)
+            // console.log(action.response[i].data.songmid)
+            const res = action.response[i].cur_count
+            const url = 'http://ws.stream.qqmusic.qq.com/C100' + action.response[i].data.songmid+'.m4a?fromtag=0&guid=126548448'
+            // console.log(url)
+            // console.log(res)
+            const a = { [res]: { id:res,name: action.response[i].data.songname,m_url:url}}
+            // console.log(a)
+            newState.entities = Object.assign(newState.entities, a);
+              return newState
+          })
+          console.log(newState)
+          // const newState = { ...state };
+          // console.log(action.data.songlist)
+          // console.log(3, action.data.songlist[0].data.songname)
+          // console.log(3, action.data.songlist[0].data.songmid)
+          // newState.music.entities = action.data.songlist;
+          // return newState
         }
       case 'Selectone':
         {
