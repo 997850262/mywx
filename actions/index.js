@@ -1,6 +1,6 @@
 import { normalize } from '../libs/normalizr.js';
 import ActionTypes from '../const/ActionTypes';
-import * as schemes from '../schemes/index';
+import * as schemes from '../schemes/index.js';
 
 export const changeText = (text) => {
   return { type: 'CHANGE_TEXT', text }
@@ -28,9 +28,12 @@ export const music = () => {
       // topid: 36,
       // _: 1520777874472 % 20,
     }, 
-      normailzerFun: response => normalize(response.data, schemes.List)
+      normailzerFun: response => normalize(response,schemes.List)
     }
     }
+}
+export const rename = (text) => {
+  return { type: 'Rename', text }
 }
 // export const music = (dirinfo, dirid, uin, p) => {
 //   return { 
@@ -43,6 +46,15 @@ export const music = () => {
 //     }
 //     }
 // }
+export const onselect = () => {
+  return { type: 'Onselect'}
+}
+export const onmoreselect = () => {
+  return { type: 'Onmoreselect' }
+}
 export const selectone = (id) => {
   return { type: 'Selectone', id }
+}
+export const selectmore = (id) => {
+  return { type: 'Selectmore', id }
 }

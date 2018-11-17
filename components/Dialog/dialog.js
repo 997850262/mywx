@@ -62,6 +62,11 @@ Component({
     _confirmEvent() {
       //触发成功回调
       this.triggerEvent("confirmEvent");
+    },
+    bindKeyInput: function (e) {
+      this.setData({
+        content: e.detail.value
+      })
     }
   }
 })

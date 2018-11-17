@@ -1,2 +1,10 @@
 <!--pages/searchmusic.wxml-->
-<text>pages/searchmusic.wxml</text>
+<view class='searchmusic_all'>
+  <view class='input'>
+    <input type="text" cursor-spacing="1" bindinput="bindKeyInput" adjust-position="true"></input>
+  </view>
+  <!-- <view>{{inputValue}}</view> -->
+  <view class='searchbtn'>
+    <button>搜索</button>
+  </view>
+</view>

@@ -51,7 +51,7 @@ const serverApi = store => next => action => {
   if (typeof params !== 'object') {
     throw new Error('Specify a object params.');
   }
-  // const { normailzerFun } = action.Server_Api;
+  const { normailzerFun } = action.Server_Api;
   function actionWith(data) {
     const finalAction = { ...action, ...data };
     delete finalAction.Server_Api;
@@ -63,7 +63,7 @@ const serverApi = store => next => action => {
   }));
   callServerApi({ endpoint, params })
     .then(res => {
-      // console.log(res.data.songlist)
+      console.log(res.data.songlist)
       const response = typeof (normailzerFun) !== 'undefined' ? normailzerFun(res.data.songlist) : res.data.songlist;
       console.log(response)
       next(actionWith({

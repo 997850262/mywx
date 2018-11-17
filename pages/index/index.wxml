@@ -21,7 +21,7 @@
 </action-sheet>
     <button class='btn' bindtap="showDialog" style="color: {{color3}}">菜单3</button>
   </view>
-  <view class="container">
+  <view>
     <dialog id='dialog' 
       title='我是标题' 
       content='恭喜你，学会了小程序自定义组件' 

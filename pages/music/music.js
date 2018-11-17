@@ -48,7 +48,7 @@ let pageConfig = {
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.dialog = this.selectComponent("#dialog");
   },
 
   /**
@@ -101,10 +101,11 @@ let pageConfig = {
     })
   },
   onclickone: function(){
-    console.log('点击单选');
+    console.log('点击单选',this.data.music);
     this.setData({
       select:true
     })
+    nextPageConfig.todoActions.onselect()
   },
   onclickmore: function () {
     console.log('点击多选');
@@ -112,11 +113,16 @@ let pageConfig = {
     this.setData({
       select: false
     })
+    nextPageConfig.todoActions.onmoreselect()
   },
   selectmusic: function(e) {
     if(this.data.select==true){
       let id = e.currentTarget.dataset.data;
       nextPageConfig.todoActions.selectone(id)
+    }
+    else{
+      let id = e.currentTarget.dataset.data;
+      nextPageConfig.todoActions.selectmore(id)
     }
   },
   onCancel: function(){
@@ -198,6 +204,26 @@ let pageConfig = {
     this.setData({
       ismove: false
     })
+  },
+  //取消事件
+  _cancelEvent() {
+    console.log('你点击了取消');
+    this.dialog.hideDialog();
+  },
+  //确认事件
+  _confirmEvent() {
+    console.log('你点击了确定');
+    this.dialog.hideDialog();
+    nextPageConfig.todoActions.rename(this.dialog.data.content)
+  },
+  rename:function(){
+    if (this.data.music.selectid!=undefined)
+    {
+      this.dialog.showDialog();
+      this.setData({
+        ispart: 2,
+      })
+    }
   }
 }
 

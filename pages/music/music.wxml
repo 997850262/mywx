@@ -5,11 +5,11 @@
     <!-- <view><text>{{name}}</text></view> -->
     <view><text>完成</text></view>
   </view>
-  <view class='header'>
+  <!-- <view class='header'>
     <view><text>我的音乐</text></view>
     <view><text>搜索音乐</text></view>
     <view><text>上传音乐</text></view>
-  </view>
+  </view> -->
   <view class='select' wx:if="{{select==true}}">
     <view class='oneselect'><text>单选</text></view><view class='selectone' bindtap='onclickone' style='background-color: red'></view>
     <view class='moreselect'><text>多选</text></view><view class='selectmore' bindtap='onclickmore'></view>
@@ -25,10 +25,28 @@
         <image src="../../source/select_music.png" class='img'></image>
         {{music.entities[item].name}}
         </view>
-        <view wx:else>
+        <view wx:elif="{{select==true}}">
         {{music.entities[item].name}}
         </view>
+        <view wx:elif="{{select==false}}">
+          <view wx:if="{{music.entities[item].select!=undefined}}">
+          <view class='moreselectstatus'></view>
+            <view wx:for="{{music.selectmoreid}}" wx:for-index="id" wx:for-item="data" wx:key="data">
+            <view wx:if="{{item==data}}">
+              <span class="number">{{id+1}}</span>
+              {{music.entities[item].name}}
+            </view>
+            </view>
+          </view>
+          <view wx:else>
+          <view class='moreselectstatusnull'></view>
+          {{music.entities[item].name}}
+          </view>
+        </view>
+
       </view>
+      
+
     <view class='recommend'><text>推荐音乐</text></view>
       <view wx:for="{{music.recommendresult}}" wx:for-index="index" wx:for-item="item" wx:key="item" class='recommendlist' bindtap='selectmusic' data-data='{{music.entities[item].id}}'>
         <view wx:if="{{select==true&&music.selectid==music.entities[item].id}}">
@@ -42,7 +60,7 @@
   </scroll-view>
   <view class='footer'>
     <button class='btn' bindtap='play'><text class='btntxt'>播放</text></button>
-    <button class='btn'><text class='btntxt'>重命名</text></button>
+    <button class='btn' bindtap='rename'><text class='btntxt'>重命名</text></button>
     <button class='btn'><text class='btntxt'>截取片断</text></button>
     <button class='btn'><text class='btntxt'>送给朋友</text></button>
     <button class='btn'><text class='btntxt'>删除</text></button>
@@ -69,8 +87,17 @@
       </view>
     </view>
   </view>
-  <view wx:else>
-
+    <view wx:if="{{ispart==2}}&&{{music.selectid!='undefined'}}">
+    <view>
+        <dialog id='dialog' 
+        title='请输入新音乐名称' 
+        content='{{music.entities[music.selectid].name}}'
+        cancelText='取消' 
+        confirm='确定'
+        bind:cancelEvent="_cancelEvent"  
+        bind:confirmEvent="_confirmEvent">
+      </dialog>
+    </view>
   </view>
 </view>
 

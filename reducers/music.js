@@ -122,37 +122,80 @@ function  music(state = {
       }
       case 'Music_SUC':
         {
-          // console.log('suc',action)
-          // console.log(action.response)
+          console.log('suc', action.response)
+          state.result = action.response.result;
           const newState = { ...state };
-          action.response.map((data,index)=>{
-            return newState.result.push(data.cur_count)
-          })
+          // action.response.map((data,index)=>{
+          //   return newState.result.push(data.cur_count)
+          // })
+          // newState.result=action.response.result;
           newState.result.map((d, i) => {
-            // console.log(action.response[i].cur_count)
-            // console.log(action.response[i].data.songname)
-            // console.log(action.response[i].data.songmid)
-            const res = action.response[i].cur_count
-            const url = 'http://ws.stream.qqmusic.qq.com/C100' + action.response[i].data.songmid+'.m4a?fromtag=0&guid=126548448'
-            // console.log(url)
-            // console.log(res)
-            const a = { [res]: { id:res,name: action.response[i].data.songname,m_url:url}}
-            // console.log(a)
+            const res = action.response.entities.list[i+1].cur_count
+            const url = 'http://ws.stream.qqmusic.qq.com/C100' + action.response.entities.list[i+1].data.songmid+'.m4a?fromtag=0&guid=126548448';
+            const a = { [res]: { id: res, name: action.response.entities.list[i + 1].data.songname,m_url:url}}
             newState.entities = Object.assign(newState.entities, a);
-              return newState
+              return newState;
           })
           console.log(newState)
-          // const newState = { ...state };
-          // console.log(action.data.songlist)
-          // console.log(3, action.data.songlist[0].data.songname)
-          // console.log(3, action.data.songlist[0].data.songmid)
-          // newState.music.entities = action.data.songlist;
-          // return newState
         }
+      // case 'Onselect':// 点击单选时
+      //   {
+      //     const newselectid = state.selectmoreid[0];
+      //     return {
+      //       ...state,
+      //       selectid: newselectid
+      //     };
+      //   }
+      // case 'Onmoreselect':// 点击多选时
+      //   {
+      //     console.log('点击多选时', action)
+      //     const newselectmoreid = [];
+      //     if (state.selectid > 0) {
+      //       newselectmoreid.push(state.selectid);
+      //       state.entities[state.selectid].select = 1
+      //     }
+      //     console.log(newselectmoreid)
+      //     return {
+      //       ...state,
+      //       selectmoreid: newselectmoreid
+      //     };
+      //   }
       case 'Selectone':
         {
           const newState = { ...state };
           newState.selectid = action.id;
+          return newState
+        }
+      case 'Selectmore':
+        {
+          let count = 0;
+          console.log('多选', action.id);
+          const newselectmoreid = state.selectmoreid.slice();
+          for (let i = 0; i < newselectmoreid.length; i++) {
+            if (newselectmoreid[i] != action.id) {
+              count++;
+            }
+          }
+          if (count >= newselectmoreid.length && newselectmoreid.length < 5) {
+            newselectmoreid.push(action.id);
+            state.entities[action.id].select=1
+          } else {
+            for (let i = 0; i < newselectmoreid.length; i++) {
+              if (newselectmoreid[i] == action.id) {
+                newselectmoreid.splice(i, 1);
+                delete state.entities[action.id].select;
+              }
+            }
+          }
+          return {
+            ...state,
+            selectmoreid: newselectmoreid
+          };
+        }
+      case 'Rename':
+        {
+          const newState = { ...state };
+          newState.entities[newState.selectid].name = action.text;
           return newState
         }
       default:

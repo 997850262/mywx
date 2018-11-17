@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    focus: false,
+    inputValue: ''
   },
 
   /**
@@ -62,5 +63,10 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  bindKeyInput:function(e){
+    this.setData({
+      inputValue: e.detail.value
+    })
   }
 })

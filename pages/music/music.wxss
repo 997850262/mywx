@@ -121,3 +121,25 @@
 .slider{
   width: 70%
 }
+.moreselectstatusnull{
+  position: absolute;
+  left: 0;
+  height:44rpx;
+  width:44rpx;
+  border-radius: 50%;
+  background-color: white;
+  border:1rpx black solid;
+}
+.moreselectstatus{
+  position: absolute;
+  left: 0;
+  height:44rpx;
+  width:44rpx;
+  border-radius: 50%;
+  background-color: red;
+  border:1rpx black solid;
+}
+.number{
+  position: absolute;
+  margin-left: -105rpx;
+}
