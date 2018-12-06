@@ -19,7 +19,7 @@
     </block>
     <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
 </action-sheet>
-    <button class='btn' bindtap="showDialog" style="color: {{color3}}">菜单3</button>
+    <button class='btn' bindtap="showDialog" style="color: {{color3}}">照片</button>
   </view>
   <view>
     <dialog id='dialog' 

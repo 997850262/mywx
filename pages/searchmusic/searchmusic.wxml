@@ -1,5 +1,18 @@
 <!--pages/searchmusic.wxml-->
 <view class='searchmusic_all'>
+  <view wx:if="{{voice==false}}">
+  <button bindtap='voice'>录音</button>
+  </view>
+  <view wx:else="{{voice==true}}">
+  <button bindtap='voice'>结束录音</button>
+  </view>
+  <view>
+  <button bindtap='playvoice'>播放录音</button>
+  </view>
+  <!-- <view>
+<audio src="http://ws.stream.qqmusic.qq.com/C1000016dmVO0Gbmop.m4a?fromtag=0&guid=126548448" controls="controls">
+</audio>
+  </view> -->
   <view class='input'>
     <input type="text" cursor-spacing="1" bindinput="bindKeyInput" adjust-position="true"></input>
   </view>

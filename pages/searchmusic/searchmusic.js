@@ -6,7 +6,8 @@ Page({
    */
   data: {
     focus: false,
-    inputValue: ''
+    inputValue: '',
+    voice:false,
   },
 
   /**
@@ -68,5 +69,44 @@ Page({
     this.setData({
       inputValue: e.detail.value
     })
+  },
+  voice() {
+    var that = this;
+    if(this.data.voice==false){
+      wx.startRecord({
+        success(res) {
+          const tempFilePath = res.tempFilePath
+          console.log(tempFilePath, res.tempFilePath)
+          that.setData({
+            src:tempFilePath
+          })
+        }
+      })
+      this.setData({
+        voice:true,
+      })
+    }
+    else{
+      wx.stopRecord()
+      this.setData({
+        voice: false
+      })
+    }
+  },
+  playvoice() {
+    wx.playVoice({
+      filePath: this.data.src // src可以是录音文件临时路径
+    })
+    // const recorderManager = wx.getRecorderManager()
+    // const innerAudioContext = wx.createInnerAudioContext()
+    // innerAudioContext.autoplay = true
+    // innerAudioContext.src = this.data.src,
+    //   innerAudioContext.onPlay(() => {
+    //     console.log('开始播放')
+    //   })
+    // innerAudioContext.onError((res) => {
+    //   console.log(res.errMsg)
+    //   console.log(res.errCode)
+    // })
   }
 })

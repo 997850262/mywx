@@ -1,0 +1,7 @@
+var indexof = function (arr,data) {
+  // console.log(arr.indexOf(a))
+  return arr.indexOf(data)
+}
+module.exports = {
+  indexof: indexof
+};

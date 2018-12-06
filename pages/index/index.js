@@ -115,9 +115,14 @@ let pageConfig = {
     console.log('点击操作3')
   },
   showDialog() {
-    this.dialog.showDialog();
-    console.log('点击按钮3')
-    nextPageConfig.todoActions.changeText('刘')
+    console.log(this.data.userInfo)
+    let user = JSON.stringify(this.data.userInfo)
+    wx.navigateTo({
+      url: '../photo/photo?user='+user
+    })
+    // this.dialog.showDialog();
+    // console.log('点击按钮3')
+    // nextPageConfig.todoActions.changeText('刘')
     this.setData({
       color1: "black",
       color2: "black",

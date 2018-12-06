@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/music/music",
     "pages/searchmusic/searchmusic",
-    "pages/uploadmusic/uploadmusic"
+    "pages/uploadmusic/uploadmusic",
+    "pages/photo/photo"
   ],
   "window": {
     "backgroundTextStyle": "light",
